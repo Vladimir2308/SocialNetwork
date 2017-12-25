@@ -15,14 +15,14 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView registerUser(@RequestParam("name") String name) {
-        User user = service.register(name);
-
-        ModelAndView model = new ModelAndView();
-        model.setViewName("registered");
-        model.addObject("user", user);
-
-        return model;
-    }
+//    @RequestMapping(value = "/register", method = RequestMethod.GET)
+//    public ModelAndView registerUser(@RequestParam("name") String name) {
+//        User user = service.register(name);
+//
+//        ModelAndView model = new ModelAndView();
+//        model.setViewName("registered");
+//        model.addObject("user", user);
+//
+//        return model;
+//    }
 }
