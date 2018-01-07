@@ -6,26 +6,30 @@
     </head>
     <body>
         <form method="post" action="/regist">
-            <input type="text" name="email" placeholder="Введите ваш email">
+            <input type="text" name="email" size=30 placeholder="Введите ваш email">
             <br>
-            <input type="text" name="name" placeholder="Введите ваше имя">
+            <input type="text" name="name" size=30 placeholder="Введите ваше имя">
             <br>
-            <input type="text" name="surname" placeholder="Введите вашу фамилию">
+            <input type="text" name="surname" size=30 placeholder="Введите вашу фамилию">
             <br>
-            <input type="text" name="patronymic" placeholder="Введите ваше отчество">
+            <input type="text" name="patronymic" size=30 placeholder="Введите ваше отчество">
             <br>
-            <input type="text" name="pass1" placeholder="Введите ваш пароль">
+            <input type="password" name="pass1" size=30 placeholder="Введите ваш пароль">
             <br>
-            <input type="text" name="pass2" placeholder="Введите ваш пароль повторно">
+            <input type="password" name="pass2" size=30 placeholder="Введите ваш пароль повторно">
             <br>
             <input type="submit" value="зарегистрировать">
 
         </form>
-          <c:if test="${not empty name}">
-                 <hr>
-                 <h2>Привет, ${name}!</h2>
-                   <h2>Привет, ${test}!</h2>
-                 </c:if>
+
+          <c:if test="${not empty msg1}">
+             <hr>
+         <h2 style="color: red"> ${msg1}</h2>
+            </c:if>
+             <c:if test="${not empty msg2}">
+                         <hr>
+                     <h2 style="color: red"> ${msg2}</h2>
+                        </c:if>
 
     </body>
 </html>

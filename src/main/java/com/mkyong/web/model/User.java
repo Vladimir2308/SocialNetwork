@@ -10,7 +10,18 @@ public class User {
     private String patronymic;
     private String pass;
     private int phone;
-    private ArrayList listFriends;
+    private ArrayList<User>listFriends;
+
+    public User() {
+        listFriends = new ArrayList<>();
+    }
+    public void addFriend(User user){
+
+    }
+    public ArrayList getListFriends() {
+
+        return listFriends;
+    }
 
     public long getId() {
         return id;

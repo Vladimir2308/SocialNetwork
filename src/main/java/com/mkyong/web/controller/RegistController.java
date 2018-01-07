@@ -23,25 +23,36 @@ public class RegistController {
     ) {
 
         System.out.println("русские символы");
-        System.out.println("email "+ email);
-        System.out.println("pass1 "+ pass1);
-        System.out.println("pass2 "+ pass2);
-        System.out.println("name "+ name);
-        System.out.println("surname "+ surname);
-        System.out.println("patronymic "+ patronymic);
+
 
         ModelAndView model = new ModelAndView();
 
-
-        if (pass1.equals(pass2)&(pass1!=null)) {
+        if (pass1.equals(pass2)
+                &(pass1.length()>0)
+                &(email.length()>0)
+                &(name.length()>0)
+                &(surname.length()>0)
+                &(patronymic.length()>0)
+        ) {
             User user = service.register(email, name, surname, patronymic, pass1);
-
             model.setViewName("afterLogin");
-            model.addObject("test", name);
+            model.addObject("name", name);
         } else {
             model = new ModelAndView();
             model.setViewName("registration");
-            model.addObject("msg", "Password don't match");
+            if ((!pass1.equals(pass2)
+                    |(pass1.length()==0))){
+            model.addObject("msg1", "Пароли введены не верно!");
+        }
+        if ((email.length()==0)
+                    |(name.length()==0)
+                    |(name.length()>20)
+                    |(surname.length()==0)
+                    |(surname.length()>20)
+                    |(patronymic.length()==0)
+                    |(patronymic.length()>20)){
+            model.addObject("msg2", "Данные введены не верно!");
+        }
         }
         return model;
     }

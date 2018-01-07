@@ -140,7 +140,6 @@ height: 100%;
              <c:if test="${not empty name}">
                     <h2> ${name}!</h2>
                     </c:if>
-
        </div>
 
     <div class="foto">

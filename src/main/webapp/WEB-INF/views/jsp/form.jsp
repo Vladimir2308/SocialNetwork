@@ -5,8 +5,8 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <form method="post">
-            <input type="text" name="name" placeholder="Введите ваше имя">
+        <form method="post" action="/login">
+            <input type="text" name="email" placeholder="Введите email">
             <br>
               <input type="text" name="pass" placeholder="Введите ваш пароль">
               <br>
@@ -14,9 +14,13 @@
 
         </form>
        <a href="registration">Зарегистрироваться</a>
-        <c:if test="${not empty name}">
+        <c:if test="${not empty email}">
         <hr>
         <h2>Привет, ${name}!</h2>
         </c:if>
+        <c:if test="${not empty msg}">
+                     <hr>
+                 <h2 style="color: red"> ${msg}</h2>
+                    </c:if>
     </body>
 </html>

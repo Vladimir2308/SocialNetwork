@@ -128,7 +128,42 @@ height: 100%;
         ;
         padding: 1px 0 0 1px;
       }
+      td {
+       font-size: 15px;
+       color: black;
+       width: 100px;
+       height: 22px;
+       text-align: center;
+      }
 </style>
+
+<script type="text/JavaScript"
+ src="${pageContext.request.contextPath}/resources/core/js/jquery-1.9.1.min.js">
+</script>
+
+<script type="text/javascript">
+function doAjax() {
+
+
+	var inputText = $( "input.nav" ).first().attr( "id" );
+	$.ajax({
+		url : 'getCharNum',
+		type: 'POST',
+		dataType: 'json',
+
+		data : ({
+			text: inputText
+		}),
+		success: function (data) {
+
+			var result = data;
+			$("#result_text").text(result);
+		}
+	});
+}
+</script>
+
+
 </head>
 <body>
 <div class="header">
@@ -137,9 +172,49 @@ height: 100%;
 <div class="container">
 
        <div class="content">
-             <c:if test="${not empty name}">
-                    <h2> ${name}!</h2>
-                    </c:if>
+            <center>
+              <br /> <br /> <br /> <b>User
+               List |  </b><br /> <br />
+
+
+
+              <table border="1">
+               <tr>
+                <td class="heading">User Id</td>
+                <td class="heading">Name</td>
+                <td class="heading">Surname</td>
+                <td class="heading">Patronymic</td>
+                <td class="heading">Email</td>
+                <td class="heading">Add to friends</td>
+
+               </tr>
+               <c:forEach var="user" items="${userList}">
+                <tr>
+                 <td>${user.id}</td>
+                 <td>${user.name}</td>
+                 <td>${user.surname}</td>
+                 <td>${user.patronymic}</td>
+                  <button>Feed</button>
+                   <button>the</button>
+                   <button>Input</button>
+                 <td><input type="text" value="click a button"></td>
+                 <script>
+                 $( "button" ).click(function() {
+                   var text = ${user.id};
+                   $( "input" ).val( text );
+                 });
+                 </script>
+                 <td><h3>Enter text:</h3>
+                     	<input id="input_str" type="text">
+                     	<input class="nav" id=${user.id} type="button" value="OK" onclick="doAjax()">
+                     	<p id="result_text"></p> </td>
+
+                </tr>
+               </c:forEach>
+               <tr><td colspan="7"><a href="register">Add New User</a></td></tr>
+              </table>
+
+             </center>
 
        </div>
 

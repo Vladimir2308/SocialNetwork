@@ -1,5 +1,8 @@
 package com.mkyong.web.controller;
 
+import com.mkyong.web.model.User;
+import com.mkyong.web.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -7,9 +10,49 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HelloController {
+    @Autowired
+    private UserService service;
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ModelAndView showMessage(@RequestParam String email,
+                                    @RequestParam String pass
+    ) {
+
+        System.out.println("русские символы");
 
 
-    @RequestMapping(value ={ "/", "/index" } , method = RequestMethod.GET)
+        ModelAndView model = new ModelAndView();
+
+        if ((email.length() > 0)
+                & (pass.length() > 0)
+                ) {
+            if (service.mailCheck(email)) {
+                if (service.login(email, pass)) {
+                    model.setViewName("afterLogin");
+
+                    model.addObject("name", service.getName(email));
+                } else {
+                    model = new ModelAndView();
+                    model.setViewName("form");
+                    model.addObject("msg", "Пароль введён не верно!");
+                }
+            } else {
+                model = new ModelAndView();
+                model.setViewName("form");
+                model.addObject("msg", "email не найден");
+            }
+        } else {
+            model = new ModelAndView();
+            model.setViewName("form");
+            model.addObject("msg", "необходимо ввести email и пароль");
+        }
+
+
+        return model;
+    }
+
+
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index() {
         return "form";
     }
@@ -37,10 +80,12 @@ public class HelloController {
         return "form";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String handleForm(@RequestParam("name") String name, ModelMap model) {
-        model.addAttribute("name", name);
-        return "form";
+    @RequestMapping(value = "/form", method = RequestMethod.POST)
+    public ModelAndView handleForm(@RequestParam String email ) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("form");
+//        model.addObject("name", email);
+        return model;
     }
 
 }
