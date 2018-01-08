@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@SessionAttributes(value = "id")
+@SessionAttributes({"id"})
 public class HelloController {
     @Autowired
     private UserService service;

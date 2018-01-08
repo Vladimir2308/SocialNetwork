@@ -150,17 +150,19 @@ function doAjax(inputText) {
 		url : 'friendRequest',
 		type: 'GET',
 		dataType: 'json',
-
+		contentType: 'application/json',
+	    mimeType: 'application/json',
 		data : ({
 			text: inputText
 		}),
 		success: function (data) {
 
-
+			alert(data)
 		}
 	});
 }
 </script>
+
 
 
 </head>
@@ -193,11 +195,13 @@ function doAjax(inputText) {
                  <td>${user.name}</td>
                  <td>${user.surname}</td>
                  <td>${user.patronymic}</td>
-
+                 <td>${user.email}</td>
 
                  <td>
-                     	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjax(${user.id})">
-                     	<p id="result_text"></p> </td>
+
+                        	<input type="button" value="OK" onclick="doAjax(${user.id})">
+
+</td>
 
                 </tr>
                </c:forEach>

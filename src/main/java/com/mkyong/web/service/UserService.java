@@ -71,8 +71,8 @@ public class UserService {
     }
 
     public boolean requestFriends(int idUser1, int idUser2) {
-
-        return getUser(idUser1).requestFriends(idUser2);
+        System.out.println("requestFriends(int idUser1, int idUser2)");
+       return getUser(idUser1).requestFriends(idUser2);
     }
 
     public boolean addFriends(int idUser1, int idUser2) {

@@ -28,7 +28,10 @@ public class User {
     }
 
     public boolean requestFriends(int id ){
+        System.out.println("listRequestAddToFriends.add(id)");
+        System.out.println("id "+ id);
        return listRequestAddToFriends.add(id);
+
 
     }
     public boolean requestFriendsRefusal(Integer id ){
@@ -96,6 +99,7 @@ public class User {
     }
 
     public User(int id, String email, String name, String surname, String patronymic, String pass) {
+        this();
         this.id = id;
         this.email = email;
         this.name = name;
