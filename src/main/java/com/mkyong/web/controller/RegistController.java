@@ -30,6 +30,7 @@ public class RegistController {
         if (pass1.equals(pass2)
                 &(pass1.length()>0)
                 &(email.length()>0)
+                &(!service.mailCheck(email))
                 &(name.length()>0)
                 &(surname.length()>0)
                 &(patronymic.length()>0)

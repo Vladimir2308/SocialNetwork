@@ -3,27 +3,48 @@ package com.mkyong.web.model;
 import java.util.ArrayList;
 
 public class User {
-    private long id;
+    private int id;
     private String email;
     private String name;
     private String surname;
     private String patronymic;
     private String pass;
     private int phone;
-    private ArrayList<User>listFriends;
+    private ArrayList<Integer>listFriends;
+    private ArrayList<Integer> listRequestAddToFriends;
 
     public User() {
         listFriends = new ArrayList<>();
+        listRequestAddToFriends = new ArrayList<>();
     }
-    public void addFriend(User user){
+
+    public boolean addFriend(int id ) {
+        return listFriends.add(id);
+
+    }
+    public boolean delFriend(Integer id ){
+       return listFriends.remove(id);
+
+    }
+
+    public boolean requestFriends(int id ){
+       return listRequestAddToFriends.add(id);
+
+    }
+    public boolean requestFriendsRefusal(Integer id ){
+       return listRequestAddToFriends.remove(id);
 
     }
     public ArrayList getListFriends() {
 
         return listFriends;
     }
+    public ArrayList getListRequestAddToFriends() {
 
-    public long getId() {
+        return listRequestAddToFriends;
+    }
+
+    public int getId() {
         return id;
     }
     public String getEmail() {
@@ -74,7 +95,7 @@ public class User {
         this.phone = phone;
     }
 
-    public User(long id, String email, String name, String surname, String patronymic, String pass) {
+    public User(int id, String email, String name, String surname, String patronymic, String pass) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -82,4 +103,6 @@ public class User {
         this.patronymic = patronymic;
         this.pass = pass;
     }
+
+
 }

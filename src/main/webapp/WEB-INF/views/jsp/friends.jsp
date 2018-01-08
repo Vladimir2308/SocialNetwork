@@ -15,18 +15,18 @@ height: 100%;
 
    h1 {
 
-    margin: 0; /* Убираем отступы */
-    color: #111; /* Цвет текста заголовка шапки */
+    margin: 0;
+    color: #111;
    }
    h2 {
-    margin-top: 0; /* Убираем отступ сверху */
+    margin-top: 0;
    }
 
    .header {
    width: 90%;
-    background: #0080c0; /* Цвет фона шапки */
+    background: #0080c0;
    background-image: linear-gradient(to top right, blue, white 70%, blue);
-    padding: 10px 0px 10px 30%; /* Поля вокруг текста */
+    padding: 10px 0px 10px 30%;
     height: 5%;
    }
 
@@ -64,9 +64,9 @@ height: 100%;
 
    }
    .footer {
-       background: #333; /* Цвет фона подвал (футера) */
+       background: #333;
        padding: 0px 0px 0px 10%;
-       color: #fff; /* Цвет текста футера */
+       color: #fff;
       clear:both;
       width:95%;
       margin:0;
@@ -128,6 +128,13 @@ height: 100%;
         ;
         padding: 1px 0 0 1px;
       }
+      td {
+       font-size: 15px;
+       color: black;
+       width: 100px;
+       height: 22px;
+       text-align: center;
+      }
 </style>
 
 <script type="text/JavaScript"
@@ -135,13 +142,13 @@ height: 100%;
 </script>
 
 <script type="text/javascript">
-function doAjaxAdd(inputText) {
+function doAjax(inputText) {
 
 
 
 	$.ajax({
-		url : 'friendAdd',
-		type: 'POST',
+		url : 'friendDel',
+		type: 'GET',
 		dataType: 'json',
 
 		data : ({
@@ -155,6 +162,8 @@ function doAjaxAdd(inputText) {
 	});
 }
 </script>
+
+
 </head>
 <body>
 <div class="header">
@@ -163,35 +172,40 @@ function doAjaxAdd(inputText) {
 <div class="container">
 
        <div class="content">
-             <c:if test="${not empty name}">
-                    <h2> ${name}!</h2>
-                    </c:if>
-                     <table border="1">
-                                   <tr>
-                                    <td class="heading">User Id</td>
-                                    <td class="heading">Name</td>
-                                    <td class="heading">Surname</td>
-                                    <td class="heading">Patronymic</td>
-                                    <td class="heading">Email</td>
-                                    <td class="heading">Request for add to friends</td>
+            <center>
+              <br /> <br /> <br /> <b>User
+               List |  </b><br /> <br />
 
-                                   </tr>
-                                   <c:forEach var="user" items="${listRequestFriends}">
-                                    <tr>
-                                     <td>${user.id}</td>
-                                     <td>${user.name}</td>
-                                     <td>${user.surname}</td>
-                                     <td>${user.patronymic}</td>
 
-                                     <td>${user.patronymic}</td>
-                                     <td>
-                                         	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjaxAdd(${user.id})">
-                                         	<p id="result_text"></p> </td>
 
-                                    </tr>
-                                   </c:forEach>
+              <table border="1">
+               <tr>
+                <td class="heading">User Id</td>
+                <td class="heading">Name</td>
+                <td class="heading">Surname</td>
+                <td class="heading">Patronymic</td>
+                <td class="heading">Email</td>
+                <td class="heading">Del from friends</td>
 
-                                  </table>
+               </tr>
+               <c:forEach var="user" items="${friendList}">
+                <tr>
+                 <td>${user.id}</td>
+                 <td>${user.name}</td>
+                 <td>${user.surname}</td>
+                 <td>${user.patronymic}</td>
+
+                 <td>${user.patronymic}</td>
+                 <td>
+                     	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjax(${user.id})">
+                     	<p id="result_text"></p> </td>
+
+                </tr>
+               </c:forEach>
+               <tr><td colspan="7"><a href="register">Add New User</a></td></tr>
+              </table>
+
+             </center>
 
        </div>
 
@@ -202,7 +216,7 @@ function doAjaxAdd(inputText) {
         <p><a href="http://localhost:8080">Главная страница</a></p>
         <p><a href="http://localhost:8080/friends">Друзья</a></p>
         <p><a href="user/search">Поиск Людей</a></p>
-        <p><a href="#">Загрузить фото</a></p>
+        <p><a href="#">Загрузть фото</a></p>
         <p><a href="http://localhost:8080/logout">Выйти</a></p>
     </div>
 </div>

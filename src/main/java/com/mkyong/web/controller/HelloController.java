@@ -8,18 +8,24 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
+@SessionAttributes(value = "id")
 public class HelloController {
     @Autowired
     private UserService service;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView showMessage(@RequestParam String email,
+    public ModelAndView showMessage(HttpServletRequest request, HttpSession session, @RequestParam String email,
                                     @RequestParam String pass
     ) {
 
         System.out.println("русские символы");
-
+        if (!session.isNew()) {
+            session.invalidate();
+        }
 
         ModelAndView model = new ModelAndView();
 
@@ -31,6 +37,11 @@ public class HelloController {
                     model.setViewName("afterLogin");
 
                     model.addObject("name", service.getName(email));
+                    model.addObject("id", service.getId(email));
+                    User user=service.getUser(service.getId(email));
+                    if (!user.getListRequestAddToFriends().isEmpty()){
+                        model.addObject("listRequestFriends", user.getListRequestAddToFriends());
+                    }
                 } else {
                     model = new ModelAndView();
                     model.setViewName("form");
@@ -64,16 +75,7 @@ public class HelloController {
     }
 
 
-    @RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
-    public ModelAndView hello(@PathVariable("name") String name) {
 
-        ModelAndView model = new ModelAndView();
-        model.setViewName("hello");
-        model.addObject("msg", name);
-
-        return model;
-
-    }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String showForm() {

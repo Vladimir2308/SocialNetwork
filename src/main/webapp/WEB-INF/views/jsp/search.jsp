@@ -142,13 +142,13 @@ height: 100%;
 </script>
 
 <script type="text/javascript">
-function doAjax() {
+function doAjax(inputText) {
 
 
-	var inputText = $( "input.nav" ).first().attr( "id" );
+
 	$.ajax({
-		url : 'getCharNum',
-		type: 'POST',
+		url : 'friendRequest',
+		type: 'GET',
 		dataType: 'json',
 
 		data : ({
@@ -156,8 +156,7 @@ function doAjax() {
 		}),
 		success: function (data) {
 
-			var result = data;
-			$("#result_text").text(result);
+
 		}
 	});
 }
@@ -194,19 +193,10 @@ function doAjax() {
                  <td>${user.name}</td>
                  <td>${user.surname}</td>
                  <td>${user.patronymic}</td>
-                  <button>Feed</button>
-                   <button>the</button>
-                   <button>Input</button>
-                 <td><input type="text" value="click a button"></td>
-                 <script>
-                 $( "button" ).click(function() {
-                   var text = ${user.id};
-                   $( "input" ).val( text );
-                 });
-                 </script>
-                 <td><h3>Enter text:</h3>
-                     	<input id="input_str" type="text">
-                     	<input class="nav" id=${user.id} type="button" value="OK" onclick="doAjax()">
+
+
+                 <td>
+                     	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjax(${user.id})">
                      	<p id="result_text"></p> </td>
 
                 </tr>
