@@ -5,7 +5,7 @@
         <meta charset="utf-8">
     </head>
     <body>
-        <form method="post" action="/regist">
+        <form method="post" action="/registration">
             <input type="text" name="email" size=30 placeholder="Введите ваш email">
             <br>
             <input type="text" name="name" size=30 placeholder="Введите ваше имя">
@@ -30,6 +30,9 @@
                          <hr>
                      <h2 style="color: red"> ${msg2}</h2>
                         </c:if>
-
+ <c:if test="${not empty msg3}">
+                         <hr>
+                     <h2 style="color: red"> ${msg3}</h2>
+                        </c:if>
     </body>
 </html>

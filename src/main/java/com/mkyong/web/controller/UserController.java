@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService service;
@@ -61,16 +60,26 @@ public class UserController {
             }
 
 
-            service.addFriends((int) session.getAttribute("id"), id);
-            System.out.println(" session.getAttribute " + (int) session.getAttribute("id"));
+            service.addFriends(((User)session.getAttribute("user")).getId(), id);
+            System.out.println(" session.getAttribute " + ((User)((User) session.getAttribute("user"))).getSessionId());
         }
 
         return text;
     }
+    @RequestMapping("/friends")
+    public ModelAndView friends() {
+        int idUser=1;
+//        receive user id from session
+       ArrayList<User> listFriends= service.getUser(idUser).getListFriends();
+        return new ModelAndView("friends", "listFriends", listFriends);
+    }
 
 
     @RequestMapping("/logout")
-    public String logout() {
-        return "redirect:/login";
+    public String logout(HttpSession session) {
+        if (!session.isNew()) {
+            session.invalidate();
+        }
+        return "index";
     }
 }

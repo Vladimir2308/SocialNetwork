@@ -216,11 +216,11 @@ function doAjax(inputText) {
         <img  src="resources/core/images/defaultAvatar.jpg" />
     </div>
     <div class="extra">
-        <p><a href="http://localhost:8080">Главная страница</a></p>
-        <p><a href="http://localhost:8080/friends">Друзья</a></p>
-        <p><a href="user/search">Поиск Людей</a></p>
-        <p><a href="#">Загрузть фото</a></p>
-        <p><a href="http://localhost:8080/logout">Выйти</a></p>
+       <p><a href="main">Главная страница</a></p>
+               <p><a href="friends">Друзья</a></p>
+               <p><a href="search">Поиск Людей</a></p>
+               <p><a href="#">Загрузить фото</a></p>
+               <p><a href="logout">Выйти</a></p>
     </div>
 </div>
 

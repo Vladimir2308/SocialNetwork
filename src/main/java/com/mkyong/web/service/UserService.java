@@ -72,14 +72,20 @@ public class UserService {
 
     public boolean requestFriends(int idUser1, int idUser2) {
         System.out.println("requestFriends(int idUser1, int idUser2)");
-       return getUser(idUser1).requestFriends(idUser2);
+       return getUser(idUser1).requestFriends(getUser(idUser2));
     }
 
     public boolean addFriends(int idUser1, int idUser2) {
-        if(getUser(idUser1).addFriend(idUser2)){
+        if(getUser(idUser1).addFriend(getUser(idUser2))){
             return getUser(idUser2).requestFriendsRefusal(idUser1);
         }
         return false;
     }
 
+    public void setUserSession(User user, String id) {
+        user.setSessionId(id);
+    }
+    public boolean isUserSession(User user, String id) {
+       return user.getSessionId().equals(id);
+    }
 }

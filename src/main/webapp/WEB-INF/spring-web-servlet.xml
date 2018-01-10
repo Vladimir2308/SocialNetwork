@@ -12,6 +12,17 @@
         http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 	<context:component-scan base-package="com.mkyong.web" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/login"/>
+			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/registration"/>
+			<!--need to use ' /** ' not ' /* ' if you want to intercept all requests.-->
+			<!--<mvc:mapping path="/**"/>-->
+			<bean class="com.mkyong.web.service.SessionInterceptors"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 	<bean
 			class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -13,7 +13,7 @@
             <input type="submit" value="войти">
 
         </form>
-       <a href="registration">Зарегистрироваться</a>
+       <a href="/registration">Зарегистрироваться</a>
         <c:if test="${not empty email}">
         <hr>
         <h2>Привет, ${name}!</h2>

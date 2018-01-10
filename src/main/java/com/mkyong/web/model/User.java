@@ -5,21 +5,31 @@ import java.util.ArrayList;
 public class User {
     private int id;
     private String email;
+    private String SessionId;
     private String name;
     private String surname;
     private String patronymic;
     private String pass;
+
+    public String getSessionId() {
+        return SessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        SessionId = sessionId;
+    }
+
     private int phone;
-    private ArrayList<Integer>listFriends;
-    private ArrayList<Integer> listRequestAddToFriends;
+    private ArrayList<User>listFriends;
+    private ArrayList<User> listRequestAddToFriends;
 
     public User() {
         listFriends = new ArrayList<>();
         listRequestAddToFriends = new ArrayList<>();
     }
 
-    public boolean addFriend(int id ) {
-        return listFriends.add(id);
+    public boolean addFriend(User user ) {
+        return listFriends.add(user);
 
     }
     public boolean delFriend(Integer id ){
@@ -27,10 +37,8 @@ public class User {
 
     }
 
-    public boolean requestFriends(int id ){
-        System.out.println("listRequestAddToFriends.add(id)");
-        System.out.println("id "+ id);
-       return listRequestAddToFriends.add(id);
+    public boolean requestFriends(User user ){
+       return listRequestAddToFriends.add(user);
 
 
     }
@@ -38,12 +46,10 @@ public class User {
        return listRequestAddToFriends.remove(id);
 
     }
-    public ArrayList getListFriends() {
-
+    public ArrayList<User> getListFriends() {
         return listFriends;
     }
-    public ArrayList getListRequestAddToFriends() {
-
+    public ArrayList<User> getListRequestAddToFriends() {
         return listRequestAddToFriends;
     }
 

@@ -10,15 +10,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
-@SessionAttributes({"id"})
+@SessionAttributes("user")
 public class HelloController {
     @Autowired
     private UserService service;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView showMessage(HttpServletRequest request, HttpSession session, @RequestParam String email,
+    public ModelAndView showMessage( HttpSession session, @RequestParam String email,
                                     @RequestParam String pass
     ) {
 
@@ -36,25 +37,26 @@ public class HelloController {
                 if (service.login(email, pass)) {
                     model.setViewName("afterLogin");
 
-                    model.addObject("name", service.getName(email));
-                    model.addObject("id", service.getId(email));
                     User user=service.getUser(service.getId(email));
-                    if (!user.getListRequestAddToFriends().isEmpty()){
-                        model.addObject("listRequestFriends", user.getListRequestAddToFriends());
-                    }
+                    model.addObject("user",user);
+                    ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
+                    service.setUserSession(service.getUser(service.getId(email)),session.getId());
+
+                        model.addObject("listRequestFriends", listRequestAddToFriends);
+
                 } else {
                     model = new ModelAndView();
-                    model.setViewName("form");
+                    model.setViewName("index");
                     model.addObject("msg", "Пароль введён не верно!");
                 }
             } else {
                 model = new ModelAndView();
-                model.setViewName("form");
+                model.setViewName("index");
                 model.addObject("msg", "email не найден");
             }
         } else {
             model = new ModelAndView();
-            model.setViewName("form");
+            model.setViewName("index");
             model.addObject("msg", "необходимо ввести email и пароль");
         }
 
@@ -65,29 +67,18 @@ public class HelloController {
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index() {
-        return "form";
+        return "index";
     }
-
+    @RequestMapping(value = {"/main"}, method = RequestMethod.GET)
+    public ModelAndView main() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("afterLogin");
+        return model;
+    }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration() {
         return "registration";
-    }
-
-
-
-
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String showForm() {
-        return "form";
-    }
-
-    @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public ModelAndView handleForm(@RequestParam String email ) {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("form");
-//        model.addObject("name", email);
-        return model;
     }
 
 }
