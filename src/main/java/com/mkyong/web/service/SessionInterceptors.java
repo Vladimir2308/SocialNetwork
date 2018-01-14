@@ -14,11 +14,15 @@ public class SessionInterceptors extends HandlerInterceptorAdapter {
                              HttpServletResponse response, Object handler) throws Exception {
 
         String sessionId = request.getSession().getId();
-
-        String sessionUserId = ((User) request.getSession().getAttribute("user")).getSessionId();
+        String sessionUserId = "0";
+        System.out.println( "  sessionId "+ sessionId);
+        if (request.getSession().getAttribute("user")!=null) {
+            sessionUserId = ((User) request.getSession().getAttribute("user")).getSessionId();
 //       String SessionId=request.getRequestedSessionId();
+        }
         if (!sessionId.equals(sessionUserId)) {
-            response.sendRedirect("login");
+            response.sendRedirect("/index");
+            return false;
         }
         return super.preHandle(request, response, handler);
     }

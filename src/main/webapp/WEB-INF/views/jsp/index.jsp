@@ -14,10 +14,7 @@
 
         </form>
        <a href="/registration">Зарегистрироваться</a>
-        <c:if test="${not empty email}">
-        <hr>
-        <h2>Привет, ${name}!</h2>
-        </c:if>
+
         <c:if test="${not empty msg}">
                      <hr>
                  <h2 style="color: red"> ${msg}</h2>

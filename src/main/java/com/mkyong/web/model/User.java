@@ -21,7 +21,7 @@ public class User {
 
     private int phone;
     private ArrayList<User>listFriends;
-    private ArrayList<User> listRequestAddToFriends;
+    private volatile ArrayList<User> listRequestAddToFriends;
 
     public User() {
         listFriends = new ArrayList<>();
@@ -32,24 +32,25 @@ public class User {
         return listFriends.add(user);
 
     }
-    public boolean delFriend(Integer id ){
-       return listFriends.remove(id);
+    public boolean delFriend(User user ){
+       return listFriends.remove(user);
 
     }
 
     public boolean requestFriends(User user ){
+        System.out.println(" listRequestAddToFriends "+  user.getId());
        return listRequestAddToFriends.add(user);
 
 
     }
-    public boolean requestFriendsRefusal(Integer id ){
-       return listRequestAddToFriends.remove(id);
+    public boolean requestFriendsRefusal(User user ){
+       return listRequestAddToFriends.remove(user);
 
     }
     public ArrayList<User> getListFriends() {
         return listFriends;
     }
-    public ArrayList<User> getListRequestAddToFriends() {
+    public  ArrayList<User> getListRequestAddToFriends() {
         return listRequestAddToFriends;
     }
 

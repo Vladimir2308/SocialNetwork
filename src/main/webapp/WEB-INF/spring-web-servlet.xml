@@ -17,7 +17,9 @@
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/login"/>
 			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/index"/>
 			<mvc:exclude-mapping path="/registration"/>
+
 			<!--need to use ' /** ' not ' /* ' if you want to intercept all requests.-->
 			<!--<mvc:mapping path="/**"/>-->
 			<bean class="com.mkyong.web.service.SessionInterceptors"/>

@@ -142,7 +142,7 @@ height: 100%;
 </script>
 
 <script type="text/javascript">
-function doAjax(inputText) {
+function doDelAjax(inputText) {
 
 
 
@@ -156,7 +156,7 @@ function doAjax(inputText) {
 		}),
 		success: function (data) {
 
-			var result = data;
+			var result = "deleted";
 			$("#result_text").text(result);
 		}
 	});
@@ -188,21 +188,23 @@ function doAjax(inputText) {
                 <td class="heading">Del from friends</td>
 
                </tr>
-               <c:forEach var="user" items="${listFriends}">
+               <c:forEach var="friend" items="${listFriends}">
                 <tr>
-                 <td>${user.id}</td>
-                 <td>${user.name}</td>
-                 <td>${user.surname}</td>
-                 <td>${user.patronymic}</td>
+                 <td>${friend.id}</td>
+                 <td>${friend.name}</td>
+                 <td>${friend.surname}</td>
+                 <td>${friend.patronymic}</td>
+                 <td>${friend.email}</td>
 
-                 <td>${user.patronymic}</td>
+
                  <td>
-                     	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjax(${user.id})">
+                     	<input class="nav" id=${friend.id} type="button" value="Del" onclick="doDelAjax(${friend.id})">
                      	<p id="result_text"></p> </td>
 
                 </tr>
                </c:forEach>
-               <tr><td colspan="7"><a href="register">Add New User</a></td></tr>
+               <tr><td colspan="7"><a href="search">Поиск друзей</a></td></tr>
+
               </table>
 
              </center>

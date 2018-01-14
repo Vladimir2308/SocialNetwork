@@ -29,9 +29,9 @@ public class UserController {
 
     @RequestMapping(value = "/friendRequest", method = RequestMethod.GET)
     public @ResponseBody
-    Object friendRequest(HttpServletRequest request, HttpSession session,@RequestParam String text) {
+    Object friendRequest(HttpSession session, @RequestParam String text) {
 
-        System.out.println(text + " запрос на добавление  в друзья");
+        System.out.println(text + " friendRequest");
         int id;
         if (text != null) {
             try {
@@ -39,16 +39,50 @@ public class UserController {
             } catch (Exception e) {
                 return false;
             }
+            User userReqFriend = service.getUser(id);
+            int currentId = ((User) session.getAttribute("user")).getId();
 
-            service.requestFriends(1, id);
+            if ((!userReqFriend.getListFriends().contains(service.getUser(currentId)))
+                    & (!userReqFriend.getListRequestAddToFriends().contains(service.getUser(currentId))
+                    & (userReqFriend.getId() != currentId))) {
+                System.out.println( service.requestFriends(userReqFriend.getId(), currentId));
+
+            }
         }
 
+        text="added";
+        return text;
+
+    }
+    @RequestMapping(value = "/friendReqFault", method = RequestMethod.GET)
+    public @ResponseBody
+    Object friendReqFault(HttpSession session, @RequestParam String text) {
+
+
+        int id;
+        if (text != null) {
+            try {
+                id = Integer.parseInt(text);
+            } catch (Exception e) {
+                return false;
+            }
+            User userReqFriend = service.getUser(id);
+            int currentId = ((User) session.getAttribute("user")).getId();
+
+
+                service.requestFriendsFault( currentId,userReqFriend.getId());
+
+        }
+
+        text="Fault";
         return text;
     }
+
+
 
     @RequestMapping(value = "/friendAdd", method = RequestMethod.POST)
     public @ResponseBody
-    Object friendAdd(HttpServletRequest request, HttpSession session, @RequestParam String text) {
+    Object friendAdd(HttpSession session, @RequestParam String text) {
 
         System.out.println(text + " запрос на добавление  в друзья");
         int id;
@@ -60,17 +94,43 @@ public class UserController {
             }
 
 
-            service.addFriends(((User)session.getAttribute("user")).getId(), id);
-            System.out.println(" session.getAttribute " + ((User)((User) session.getAttribute("user"))).getSessionId());
+            service.addFriends(((User) session.getAttribute("user")).getId(), id);
+
         }
 
         return text;
     }
-    @RequestMapping("/friends")
-    public ModelAndView friends() {
-        int idUser=1;
+
+
+
+
+    @RequestMapping(value = "/friendDel", method = RequestMethod.GET)
+    public @ResponseBody
+    Object friendDel(HttpSession session, @RequestParam String text) {
+
+
+        int id;
+        if (text != null) {
+            try {
+                id = Integer.parseInt(text);
+            } catch (Exception e) {
+                return false;
+            }
+
+
+            System.out.println(service.delFriends(((User) session.getAttribute("user")), id));
+            System.out.println("user  "+ id+"  list friends " + service.getUser(id).getListFriends().size());
+            System.out.println("user  "+ ((User) session.getAttribute("user")).getId()+"  list friends "
+                    + ((User) session.getAttribute("user")).getListFriends().size());
+        }
+
+        return text;
+    }
+    @RequestMapping(value = "/friends", method = RequestMethod.GET)
+    public ModelAndView friends(HttpSession session) {
+        User user = (User) session.getAttribute("user");
 //        receive user id from session
-       ArrayList<User> listFriends= service.getUser(idUser).getListFriends();
+        ArrayList<User> listFriends = user.getListFriends();
         return new ModelAndView("friends", "listFriends", listFriends);
     }
 
@@ -78,6 +138,7 @@ public class UserController {
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         if (!session.isNew()) {
+            ((User) session.getAttribute("user")).setSessionId("");
             session.invalidate();
         }
         return "index";

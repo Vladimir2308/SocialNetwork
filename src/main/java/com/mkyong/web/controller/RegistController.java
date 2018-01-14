@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 @SessionAttributes("user")
@@ -44,6 +45,8 @@ public class RegistController {
             model.addObject("name", name);
             model.addObject("user",user);
             service.setUserSession(service.getUser(service.getId(email)),session.getId());
+            ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
+            model.addObject("listRequestFriends", listRequestAddToFriends);
         } else {
             model = new ModelAndView();
             model.setViewName("registration");
@@ -55,12 +58,13 @@ public class RegistController {
             model.addObject("msg2", "This email already registered!");
         }
             if ((email.length()==0)
+                    |(email.length()>15)
                     |(name.length()==0)
-                    |(name.length()>20)
+                    |(name.length()>15)
                     |(surname.length()==0)
-                    |(surname.length()>20)
+                    |(surname.length()>15)
                     |(patronymic.length()==0)
-                    |(patronymic.length()>20)){
+                    |(patronymic.length()>15)){
                 model.addObject("msg3", "Данные введены не верно!");
             }
         }

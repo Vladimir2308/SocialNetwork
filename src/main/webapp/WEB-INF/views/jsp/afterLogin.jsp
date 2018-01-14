@@ -23,10 +23,10 @@ height: 100%;
    }
 
    .header {
-   width: 90%;
+   width: 100%;
     background: #0080c0; /* Цвет фона шапки */
    background-image: linear-gradient(to top right, blue, white 70%, blue);
-    padding: 10px 0px 10px 30%; /* Поля вокруг текста */
+    padding: 10px 0px 10px 300px; /* Поля вокруг текста */
     height: 5%;
    }
 
@@ -128,6 +128,9 @@ height: 100%;
         ;
         padding: 1px 0 0 1px;
       }
+      .table1{
+      width=100%;
+      }
 </style>
 
 <script type="text/JavaScript"
@@ -154,45 +157,59 @@ function doAjaxAdd(inputText) {
 		}
 	});
 }
+function doAjaxFault(inputText) {
+
+
+
+	$.ajax({
+		url : 'friendReqFault',
+		type: 'GET',
+		dataType: 'json',
+
+		data : ({
+			text: inputText
+		}),
+		success: function (data) {
+
+			var result = "Reset";
+			$("#result_text").text(result);
+		}
+	});
+}
 </script>
 </head>
 <body>
 <div class="header">
     <h1>T-Net</h1>
+
 </div>
 <div class="container">
 
        <div class="content">
-             <c:if test="${not empty name}">
-                    <h2> ${name}!</h2>
-                    </c:if>
-                     <table border="1">
-                                   <tr>
-                                    <td class="heading">User Id</td>
-                                    <td class="heading">Name</td>
-                                    <td class="heading">Surname</td>
-                                    <td class="heading">Patronymic</td>
-                                    <td class="heading">Email</td>
-                                    <td class="heading">Request for add to friends</td>
 
-                                   </tr>
-                                   <c:forEach var="userId" items="${listRequestFriends}">
+<c:if test="${not empty listRequestFriends}">
+                     <table class="table1" border="1">
+
+ <tr><td colspan="7">Запросы на добавление в друзья:</td></tr>
+
+                                   <c:forEach var="userFromReq" items="${listRequestFriends}">
                                     <tr>
-                                     <td>${user.id}</td>
-                                     <td>${user.name}</td>
-                                     <td>${user.surname}</td>
-                                     <td>${user.patronymic}</td>
+                                     <td>${userFromReq.id}</td>
+                                     <td>${userFromReq.name}</td>
+                                     <td>${userFromReq.surname}</td>
+                                     <td>${userFromReq.patronymic}</td>
 
-                                     <td>${user.patronymic}</td>
+
                                      <td>
-                                         	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjaxAdd(${user.id})">
+                                         	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjaxAdd(${userFromReq.id})">
+                                         	<input class="nav" id=${user.id} type="button" value="Del" onclick="doAjaxFault(${userFromReq.id})">
                                          	<p id="result_text"></p> </td>
 
                                     </tr>
                                    </c:forEach>
 
                                   </table>
-
+ </c:if>
        </div>
 
     <div class="foto">

@@ -24,9 +24,9 @@ public class HelloController {
     ) {
 
         System.out.println("русские символы");
-        if (!session.isNew()) {
-            session.invalidate();
-        }
+//        if (!session.isNew()) {
+//            session.invalidate();
+//        }
 
         ModelAndView model = new ModelAndView();
 
@@ -39,10 +39,12 @@ public class HelloController {
 
                     User user=service.getUser(service.getId(email));
                     model.addObject("user",user);
-                    ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
+                    model.addObject("name", user.getName());
                     service.setUserSession(service.getUser(service.getId(email)),session.getId());
+                    ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
 
                         model.addObject("listRequestFriends", listRequestAddToFriends);
+
 
                 } else {
                     model = new ModelAndView();
@@ -69,10 +71,17 @@ public class HelloController {
     public String index() {
         return "index";
     }
+
     @RequestMapping(value = {"/main"}, method = RequestMethod.GET)
-    public ModelAndView main() {
+    public ModelAndView main(HttpSession session) {
         ModelAndView model = new ModelAndView();
+
+        User user=(User)session.getAttribute("user");
+
         model.setViewName("afterLogin");
+        ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
+        model.addObject("listRequestFriends", listRequestAddToFriends);
+        System.out.println("list request size" + listRequestAddToFriends.size());
         return model;
     }
 

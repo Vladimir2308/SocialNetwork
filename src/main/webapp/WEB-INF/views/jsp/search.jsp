@@ -71,8 +71,9 @@ height: 100%;
       width:95%;
       margin:0;
 
-      }
-      a {
+   }
+
+   a {
         display: table-cell;
         width: 180px;
         height: 35px;
@@ -135,6 +136,15 @@ height: 100%;
        height: 22px;
        text-align: center;
       }
+      .info{
+       width: 130px;
+           white-space: nowrap;
+           overflow: hidden;
+           text-overflow: ellipsis;
+           height: 100%;
+      }
+
+
 </style>
 
 <script type="text/JavaScript"
@@ -157,7 +167,9 @@ function doAjax(inputText) {
 		}),
 		success: function (data) {
 
-			alert(data)
+		var result = data;
+        			$("#result_text").text(result);
+
 		}
 	});
 }
@@ -173,39 +185,37 @@ function doAjax(inputText) {
 <div class="container">
 
        <div class="content">
-            <center>
-              <br /> <br /> <br /> <b>User
-               List |  </b><br /> <br />
+
+               <h4 ><font size="3"> Список всех зарегистрированных пользователей:  </h4>
 
 
-
-              <table border="1">
+             <center>
+              <table class="table2" border="1">
                <tr>
                 <td class="heading">User Id</td>
                 <td class="heading">Name</td>
                 <td class="heading">Surname</td>
                 <td class="heading">Patronymic</td>
-                <td class="heading">Email</td>
-                <td class="heading">Add to friends</td>
+                               <td class="heading">Add to friends</td>
 
                </tr>
                <c:forEach var="user" items="${userList}">
                 <tr>
-                 <td>${user.id}</td>
-                 <td>${user.name}</td>
-                 <td>${user.surname}</td>
-                 <td>${user.patronymic}</td>
-                 <td>${user.email}</td>
+                 <td><div >${user.id}</div></td>
+                 <td><div class=info>${user.name}</div></td>
+                 <td><div class=info>${user.surname}</div></td>
+                 <td><div class=info>${user.patronymic}</div></td>
+
 
                  <td>
 
-                        	<input type="button" value="OK" onclick="doAjax(${user.id})">
+                        	<input class="${user.id}" type="button" value="OK" onclick="doAjax(${user.id})">
 
 </td>
 
                 </tr>
                </c:forEach>
-               <tr><td colspan="7"><a href="register">Add New User</a></td></tr>
+
               </table>
 
              </center>

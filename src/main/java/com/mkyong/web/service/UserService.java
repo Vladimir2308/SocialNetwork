@@ -57,6 +57,8 @@ public class UserService {
                 ) {
             list.add((User) entry.getValue());
         }
+//        list.removeIf()
+//                list.retainAll()
         return list;
     }
 
@@ -71,13 +73,16 @@ public class UserService {
     }
 
     public boolean requestFriends(int idUser1, int idUser2) {
-        System.out.println("requestFriends(int idUser1, int idUser2)");
        return getUser(idUser1).requestFriends(getUser(idUser2));
+    }
+    public boolean requestFriendsFault(int idUser1, int idUser2) {
+        return getUser(idUser1).requestFriendsRefusal(getUser(idUser2));
     }
 
     public boolean addFriends(int idUser1, int idUser2) {
         if(getUser(idUser1).addFriend(getUser(idUser2))){
-            return getUser(idUser2).requestFriendsRefusal(idUser1);
+            getUser(idUser2).addFriend(getUser(idUser1));
+            return getUser(idUser1).requestFriendsRefusal(getUser(idUser2));
         }
         return false;
     }
@@ -88,4 +93,16 @@ public class UserService {
     public boolean isUserSession(User user, String id) {
        return user.getSessionId().equals(id);
     }
+
+    public boolean delFriends(User user1, int id) {
+        User user2=getUser(id);
+        System.out.println(user1.getId()+ " "+ id);
+        if (user1.delFriend(user2)) {
+
+            return user2.delFriend(user1);
+
+        }
+        return false;
+    }
+
 }
