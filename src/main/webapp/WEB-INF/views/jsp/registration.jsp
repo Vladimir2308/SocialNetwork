@@ -14,6 +14,8 @@
             <br>
             <input type="text" name="patronymic" size=30 placeholder="Введите ваше отчество">
             <br>
+            <input type="text" name="phone" size=30 placeholder="Введите ваш номер телефона">
+            <br>
             <input type="password" name="pass1" size=30 placeholder="Введите ваш пароль">
             <br>
             <input type="password" name="pass2" size=30 placeholder="Введите ваш пароль повторно">

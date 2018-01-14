@@ -12,9 +12,9 @@ public class UserService {
     private HashMap<String, User> listUsers = new HashMap<>();
     private HashMap<Integer, String> listidUsers = new HashMap<>();
 
-    public User register(String email, String name, String surname, String patronymic, String pass) {
+    public User register(String email, String name, String surname, String patronymic, String pass, String phone) {
         int id = (int) userIds.incrementAndGet();
-        User user = new User(id, email, name, surname, patronymic, pass);
+        User user = new User(id, email, name, surname, patronymic, pass, phone);
         listUsers.put(email, user);
         listidUsers.put(id, email);
         return user;

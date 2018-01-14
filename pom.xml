@@ -15,6 +15,7 @@
         <jstl.version>1.2</jstl.version>
         <servletapi.version>2.5</servletapi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <postgres-jdbc-driver.version>9.1-901-1.jdbc4</postgres-jdbc-driver.version>
     </properties>
 
 	<dependencies>
@@ -37,6 +38,12 @@
             <artifactId>servlet-api</artifactId>
             <version>${servletapi.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres-jdbc-driver.version}</version>
         </dependency>
 
 	</dependencies>

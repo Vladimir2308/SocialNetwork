@@ -45,15 +45,16 @@ public class UserController {
             if ((!userReqFriend.getListFriends().contains(service.getUser(currentId)))
                     & (!userReqFriend.getListRequestAddToFriends().contains(service.getUser(currentId))
                     & (userReqFriend.getId() != currentId))) {
-                System.out.println( service.requestFriends(userReqFriend.getId(), currentId));
+                System.out.println(service.requestFriends(userReqFriend.getId(), currentId));
 
             }
         }
 
-        text="added";
+        text = "added";
         return text;
 
     }
+
     @RequestMapping(value = "/friendReqFault", method = RequestMethod.GET)
     public @ResponseBody
     Object friendReqFault(HttpSession session, @RequestParam String text) {
@@ -70,14 +71,13 @@ public class UserController {
             int currentId = ((User) session.getAttribute("user")).getId();
 
 
-                service.requestFriendsFault( currentId,userReqFriend.getId());
+            service.requestFriendsFault(currentId, userReqFriend.getId());
 
         }
 
-        text="Fault";
+        text = "Fault";
         return text;
     }
-
 
 
     @RequestMapping(value = "/friendAdd", method = RequestMethod.POST)
@@ -86,22 +86,25 @@ public class UserController {
 
         System.out.println(text + " запрос на добавление  в друзья");
         int id;
+        User currentUser = ((User) session.getAttribute("user"));
         if (text != null) {
             try {
                 id = Integer.parseInt(text);
             } catch (Exception e) {
                 return false;
             }
+            if (!currentUser.getListFriends().contains(service.getUser(id)))
 
+            {
+                service.addFriends(currentUser.getId(), id);
 
-            service.addFriends(((User) session.getAttribute("user")).getId(), id);
+            }
+
 
         }
 
         return text;
     }
-
-
 
 
     @RequestMapping(value = "/friendDel", method = RequestMethod.GET)
@@ -118,14 +121,13 @@ public class UserController {
             }
 
 
-            System.out.println(service.delFriends(((User) session.getAttribute("user")), id));
-            System.out.println("user  "+ id+"  list friends " + service.getUser(id).getListFriends().size());
-            System.out.println("user  "+ ((User) session.getAttribute("user")).getId()+"  list friends "
-                    + ((User) session.getAttribute("user")).getListFriends().size());
+            service.delFriends(((User) session.getAttribute("user")), id);
+
         }
 
         return text;
     }
+
     @RequestMapping(value = "/friends", method = RequestMethod.GET)
     public ModelAndView friends(HttpSession session) {
         User user = (User) session.getAttribute("user");

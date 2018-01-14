@@ -46,6 +46,9 @@ height: 100%;
    float:right;
    width:560px;
    border: 0px solid red;
+   font-size: 20px;
+
+   color : blue;
 
    }
 
@@ -63,7 +66,12 @@ height: 100%;
       padding:10px;
 
    }
-   .footer {
+   .userInfo{
+font-size: 20px;
+
+color : blue;
+   }
+      .footer {
        background: #333; /* Цвет фона подвал (футера) */
        padding: 0px 0px 0px 10%;
        color: #fff; /* Цвет текста футера */
@@ -187,30 +195,48 @@ function doAjaxFault(inputText) {
 
        <div class="content">
 
-<c:if test="${not empty listRequestFriends}">
-                     <table class="table1" border="1">
 
- <tr><td colspan="7">Запросы на добавление в друзья:</td></tr>
+ <div class=userInfo>
+ Текущий пользователь:
+  <br>
+  id = ${user.id}
+ <br>
+Имя=  ${user.name}
 
-                                   <c:forEach var="userFromReq" items="${listRequestFriends}">
-                                    <tr>
-                                     <td>${userFromReq.id}</td>
-                                     <td>${userFromReq.name}</td>
-                                     <td>${userFromReq.surname}</td>
-                                     <td>${userFromReq.patronymic}</td>
+ <br>
+Фамилия = ${user.surname}
+ <br>
+Отчество = ${user.patronymic}
+ <br>
+  email = ${user.email}
+   <br>
+Телефон = ${user.phone}
 
-
-                                     <td>
-                                         	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjaxAdd(${userFromReq.id})">
-                                         	<input class="nav" id=${user.id} type="button" value="Del" onclick="doAjaxFault(${userFromReq.id})">
-                                         	<p id="result_text"></p> </td>
-
-                                    </tr>
-                                   </c:forEach>
-
-                                  </table>
- </c:if>
        </div>
+       <c:if test="${not empty listRequestFriends}">
+                            <table class="table1" border="1">
+
+        <tr><td colspan="7">Запросы на добавление в друзья:</td></tr>
+
+                                          <c:forEach var="userFromReq" items="${listRequestFriends}">
+                                           <tr>
+                                            <td>${userFromReq.id}</td>
+                                            <td>${userFromReq.name}</td>
+                                            <td>${userFromReq.surname}</td>
+                                            <td>${userFromReq.patronymic}</td>
+
+
+                                            <td>
+                                                	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjaxAdd(${userFromReq.id})">
+                                                	<input class="nav" id=${user.id} type="button" value="Del" onclick="doAjaxFault(${userFromReq.id})">
+                                                	<p id="result_text"></p> </td>
+
+                                           </tr>
+                                          </c:forEach>
+
+                                         </table>
+        </c:if>
+         </div>
 
     <div class="foto">
         <img  src="resources/core/images/defaultAvatar.jpg" />

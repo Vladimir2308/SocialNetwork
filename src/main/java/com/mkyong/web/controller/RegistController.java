@@ -24,7 +24,8 @@ public class RegistController {
                                     @RequestParam String surname,
                                     @RequestParam String patronymic,
                                     @RequestParam String pass1,
-                                    @RequestParam String pass2
+                                    @RequestParam String pass2,
+                                    @RequestParam String phone
     ) {
 
         System.out.println("русские символы");
@@ -39,8 +40,9 @@ public class RegistController {
                 &(name.length()>0)
                 &(surname.length()>0)
                 &(patronymic.length()>0)
+
         ) {
-            User user = service.register(email, name, surname, patronymic, pass1);
+            User user = service.register(email, name, surname, patronymic, pass1, phone);
             model.setViewName("afterLogin");
             model.addObject("name", name);
             model.addObject("user",user);
@@ -50,21 +52,24 @@ public class RegistController {
         } else {
             model = new ModelAndView();
             model.setViewName("registration");
-            if ((!pass1.equals(pass2)
-                    |(pass1.length()==0))){
+            if (!pass1.equals(pass2)
+                    |(pass1.length()==0)
+                    | (pass1.length()>20)){
             model.addObject("msg1", "Пароли введены не верно!");
         }
         if (service.mailCheck(email)){
             model.addObject("msg2", "This email already registered!");
         }
             if ((email.length()==0)
-                    |(email.length()>15)
+                    |(email.length()>30)
                     |(name.length()==0)
-                    |(name.length()>15)
+                    |(name.length()>20)
                     |(surname.length()==0)
-                    |(surname.length()>15)
+                    |(surname.length()>20)
+                    |(phone.length()==0)
+                    |(phone.length()>20)
                     |(patronymic.length()==0)
-                    |(patronymic.length()>15)){
+                    |(patronymic.length()>20)){
                 model.addObject("msg3", "Данные введены не верно!");
             }
         }

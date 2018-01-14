@@ -1,5 +1,6 @@
 package com.mkyong.web.model;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class User {
@@ -10,6 +11,7 @@ public class User {
     private String surname;
     private String patronymic;
     private String pass;
+    private String phone;
 
     public String getSessionId() {
         return SessionId;
@@ -19,9 +21,9 @@ public class User {
         SessionId = sessionId;
     }
 
-    private int phone;
+
     private ArrayList<User>listFriends;
-    private volatile ArrayList<User> listRequestAddToFriends;
+    private  ArrayList<User> listRequestAddToFriends;
 
     public User() {
         listFriends = new ArrayList<>();
@@ -29,6 +31,7 @@ public class User {
     }
 
     public boolean addFriend(User user ) {
+        ArrayDeque<String> messages=new ArrayDeque<>();
         return listFriends.add(user);
 
     }
@@ -97,15 +100,15 @@ public class User {
         this.pass = pass;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public User(int id, String email, String name, String surname, String patronymic, String pass) {
+    public User(int id, String email, String name, String surname, String patronymic, String pass, String phone) {
         this();
         this.id = id;
         this.email = email;
@@ -113,6 +116,7 @@ public class User {
         this.surname = surname;
         this.patronymic = patronymic;
         this.pass = pass;
+        this.phone = phone;
     }
 
 
