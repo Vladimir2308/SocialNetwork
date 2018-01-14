@@ -21,7 +21,11 @@ height: 100%;
    h2 {
     margin-top: 0;
    }
-
+.userInfo{
+font-size: 20px;
+color : blue;
+text-align: left;
+   }
    .header {
    width: 90%;
     background: #0080c0;
@@ -178,31 +182,6 @@ height: 100%;
  src="${pageContext.request.contextPath}/resources/core/js/jquery-1.9.1.min.js">
 </script>
 
-<script type="text/javascript">
-function doDelAjax(inputText) {
-
-
-
-	$.ajax({
-		url : 'friendDel',
-		type: 'GET',
-		dataType: 'json',
-
-		data : ({
-			text: inputText
-		}),
-		success: function (data) {
-
-			var result = data;
-			$('.data').empty();
-
-			$("#result_text").text(result);
-		}
-	});
-}
-
-</script>
-
 
 </head>
 <body>
@@ -213,44 +192,23 @@ function doDelAjax(inputText) {
 
        <div class="content">
             <center>
-              <br /> <br /> <br /> <b>Friends
-               List   </b><br /> <br />
+              <div class=userInfo>
+               Информация о друге:
+                <br>
+                id = ${friend.id}
+               <br>
+              Имя=  ${friend.name}
 
+               <br>
+              Фамилия = ${friend.surname}
+               <br>
+              Отчество = ${friend.patronymic}
+               <br>
+                email = ${friend.email}
+                 <br>
+              Телефон = ${friend.phone}
 
-
-              <table border="1">
-               <tr>
-                <td class="heading">User Id</td>
-                <td class="heading">Name</td>
-                <td class="heading">Surname</td>
-
-                <td class="heading">Email</td>
-                 <td class="heading">Info</td>
-                <td class="heading">Del from friends</td>
-
-               </tr>
-               <c:forEach var="friend" items="${listFriends}">
-                <tr>
-                 <td>${friend.id}</td>
-                 <td>${friend.name}</td>
-                 <td>${friend.surname}</td>
-
-                 <td>${friend.email}</td>
-                 <td><a href="see${friend.id}">Инфо</a> </td>
-
-                 <td>
-                     	<input class="nav" id=${friend.id} type="button" value="Del" onclick="doDelAjax(${friend.id})">
-                     	 </td>
-
-
-
-
-                </tr>
-               </c:forEach>
-               <tr><td colspan="7"><a href="search">Поиск друзей</a></td></tr>
-
-              </table>
-
+                     </div>
              </center>
 
        </div>

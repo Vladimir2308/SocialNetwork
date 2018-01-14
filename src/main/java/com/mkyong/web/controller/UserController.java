@@ -1,17 +1,16 @@
 package com.mkyong.web.controller;
 
 import com.mkyong.web.model.User;
+import com.mkyong.web.service.UseJDBC;
 import com.mkyong.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -133,6 +132,13 @@ public class UserController {
         User user = (User) session.getAttribute("user");
 //        receive user id from session
         ArrayList<User> listFriends = user.getListFriends();
+//        try {
+//            UseJDBC.reqJDBC();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return new ModelAndView("friends", "listFriends", listFriends);
     }
 
@@ -144,5 +150,22 @@ public class UserController {
             session.invalidate();
         }
         return "index";
+    }
+
+    @RequestMapping("/see{idString}")
+    public ModelAndView see(@PathVariable String idString, HttpSession session) {
+        int id = -1;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        if (((User) session.getAttribute("user")).getListFriends().contains(service.getUser(id))) {
+            return new ModelAndView("see", "friend", service.getUser(id));
+        } else {
+            ((User) session.getAttribute("user")).setSessionId("");
+            session.invalidate();
+            return new ModelAndView("index");
+        }
     }
 }
