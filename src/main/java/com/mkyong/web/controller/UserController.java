@@ -132,13 +132,16 @@ public class UserController {
         User user = (User) session.getAttribute("user");
 //        receive user id from session
         ArrayList<User> listFriends = user.getListFriends();
-//        try {
-//            UseJDBC.reqJDBC();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            System.out.println("before DB");
+            UseJDBC.reqJDBC();
+            System.out.println("after DB");
+
+        } catch (ClassNotFoundException e) {
+            System.out.println( e.toString());
+        } catch (SQLException e) {
+            System.out.println( e.toString());
+        }
         return new ModelAndView("friends", "listFriends", listFriends);
     }
 
