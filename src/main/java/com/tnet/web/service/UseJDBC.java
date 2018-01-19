@@ -1,16 +1,16 @@
-package com.mkyong.web.service;
+package com.tnet.web.service;
 
 
-import com.mkyong.web.model.User;
+import com.tnet.web.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 
 public class UseJDBC {
-    private String url = "jdbc:postgresql://localhost:5432/users";
-    private String login = "postgres";
-    private String password = "1";
+    private final String url = "jdbc:postgresql://localhost:5432/users";
+    private final String login = "postgres";
+    private final String password = "1";
 
     public UseJDBC() {
         try {
@@ -175,8 +175,6 @@ public class UseJDBC {
     public ArrayList<User> getListFriends(int currentId) throws SQLException {
         Connection con = DriverManager.getConnection(url, login, password);
         PreparedStatement stmt = con.prepareStatement("SELECT users_table.user_id, users_table.firstname, users_table.surname, users_table.email, users_table.patronymic, users_table.phone, users_table.pass FROM friends JOIN users_table ON friends.id_2=users_table.user_id WHERE friends.id_1=?");
-//        PreparedStatement stmt = con.prepareStatement("SELECT * FROM friends JOIN users_table " +
-//                "ON friends.id_2=users_table.user_id WHERE friends.id_1=?");
         stmt.setInt(1, currentId);
         ArrayList<User> listFriends = new ArrayList<>();
         try (ResultSet rs = stmt.executeQuery()) {

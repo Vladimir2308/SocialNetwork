@@ -1,14 +1,12 @@
-package com.mkyong.web.controller;
+package com.tnet.web.controller;
 
-import com.mkyong.web.model.User;
-import com.mkyong.web.service.UserService;
+import com.tnet.web.model.User;
+import com.tnet.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,31 +21,19 @@ public class HelloController {
     public ModelAndView showMessage(HttpSession session, @RequestParam String email,
                                     @RequestParam String pass
     ) throws SQLException, ClassNotFoundException {
-
-        System.out.println("русские символы");
-//        if (!session.isNew()) {
-//            session.invalidate();
-//        }
-
         ModelAndView model = new ModelAndView();
-
         if ((email.length() > 0)
                 & (pass.length() > 0)
                 ) {
             if (service.mailCheck(email)) {
                 if (service.login(email, pass)) {
                     model.setViewName("afterLogin");
-
                     User user = service.getUser(email);
                     model.addObject("user", user);
                     model.addObject("name", user.getName());
                     service.setUserSession(service.getId(email), session.getId());
-                    System.out.println(session.getId());
                     ArrayList<User> listRequestAddToFriends = service.getListReqToFriends(user.getId());
-
                     model.addObject("listRequestFriends", listRequestAddToFriends);
-
-
                 } else {
                     model = new ModelAndView();
                     model.setViewName("index");
@@ -63,11 +49,8 @@ public class HelloController {
             model.setViewName("index");
             model.addObject("msg", "необходимо ввести email и пароль");
         }
-
-
         return model;
     }
-
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index() {
@@ -77,9 +60,7 @@ public class HelloController {
     @RequestMapping(value = {"/main"}, method = RequestMethod.GET)
     public ModelAndView main(HttpSession session) throws SQLException {
         ModelAndView model = new ModelAndView();
-
         User user = (User) session.getAttribute("user");
-
         model.setViewName("afterLogin");
         ArrayList<User> listRequestAddToFriends = service.getListReqToFriends(user.getId());
         model.addObject("listRequestFriends", listRequestAddToFriends);

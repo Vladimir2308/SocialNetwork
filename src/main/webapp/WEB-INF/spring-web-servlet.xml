@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:mvc="http://www.springframework.org/schema/mvc"
-	   xsi:schemaLocation="
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         http://www.springframework.org/schema/mvc
@@ -11,37 +11,32 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<context:component-scan base-package="com.mkyong.web" />
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<mvc:exclude-mapping path="/login"/>
-			<mvc:exclude-mapping path="/"/>
-			<mvc:exclude-mapping path="/index"/>
-			<mvc:exclude-mapping path="/registration"/>
+    <context:component-scan base-package="com.tnet.web"/>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/"/>
+            <mvc:exclude-mapping path="/index"/>
+            <mvc:exclude-mapping path="/registration"/>
 
-			<!--need to use ' /** ' not ' /* ' if you want to intercept all requests.-->
-			<!--<mvc:mapping path="/**"/>-->
-			<bean class="com.mkyong.web.service.SessionInterceptors"/>
-		</mvc:interceptor>
-	</mvc:interceptors>
+            <bean class="com.tnet.web.service.SessionInterceptors"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
-	<bean
-			class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/views/jsp/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
+    <bean
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/views/jsp/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
 
-
-
-
-	<mvc:default-servlet-handler />
-	<mvc:resources mapping="/resources/**" location="/resources/"  />
-	<mvc:resources mapping="/see/resources/**" location="/resources/"  />
-	<mvc:annotation-driven />
+    <mvc:default-servlet-handler/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:resources mapping="/see/resources/**" location="/resources/"/>
+    <mvc:annotation-driven/>
 
 </beans>

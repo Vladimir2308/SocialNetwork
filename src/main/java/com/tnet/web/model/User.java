@@ -1,7 +1,5 @@
-package com.mkyong.web.model;
+package com.tnet.web.model;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class User {
@@ -44,6 +42,7 @@ public class User {
     public int getId() {
         return id;
     }
+
     public String getEmail() {
         return email;
     }
