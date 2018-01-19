@@ -2,6 +2,7 @@ package com.mkyong.web.model;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class User {
     private int id;
@@ -21,40 +22,23 @@ public class User {
         SessionId = sessionId;
     }
 
-
-    private ArrayList<User>listFriends;
-    private  ArrayList<User> listRequestAddToFriends;
-
     public User() {
-        listFriends = new ArrayList<>();
-        listRequestAddToFriends = new ArrayList<>();
-    }
-
-    public boolean addFriend(User user ) {
-        ArrayDeque<String> messages=new ArrayDeque<>();
-        return listFriends.add(user);
-
-    }
-    public boolean delFriend(User user ){
-       return listFriends.remove(user);
 
     }
 
-    public boolean requestFriends(User user ){
-        System.out.println(" listRequestAddToFriends "+  user.getId());
-       return listRequestAddToFriends.add(user);
-
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                Objects.equals(email, user.email);
     }
-    public boolean requestFriendsRefusal(User user ){
-       return listRequestAddToFriends.remove(user);
 
-    }
-    public ArrayList<User> getListFriends() {
-        return listFriends;
-    }
-    public  ArrayList<User> getListRequestAddToFriends() {
-        return listRequestAddToFriends;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, email);
     }
 
     public int getId() {

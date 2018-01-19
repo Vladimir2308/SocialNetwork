@@ -21,14 +21,14 @@ public class UserController {
 
 
     @RequestMapping("/search")
-    public ModelAndView search() {
+    public ModelAndView search() throws SQLException {
         ArrayList<User> userList = service.getIterableListUsers();
         return new ModelAndView("search", "userList", userList);
     }
 
     @RequestMapping(value = "/friendRequest", method = RequestMethod.GET)
     public @ResponseBody
-    Object friendRequest(HttpSession session, @RequestParam String text) {
+    Object friendRequest(HttpSession session, @RequestParam String text) throws SQLException {
 
         System.out.println(text + " friendRequest");
         int id;
@@ -39,12 +39,13 @@ public class UserController {
                 return false;
             }
             User userReqFriend = service.getUser(id);
-            int currentId = ((User) session.getAttribute("user")).getId();
+            User currentUser = ((User) session.getAttribute("user"));
+            System.out.println(service.toString());
 
-            if ((!userReqFriend.getListFriends().contains(service.getUser(currentId)))
-                    & (!userReqFriend.getListRequestAddToFriends().contains(service.getUser(currentId))
-                    & (userReqFriend.getId() != currentId))) {
-                System.out.println(service.requestFriends(userReqFriend.getId(), currentId));
+            if ((!service.getListFriends(userReqFriend.getId()).contains(currentUser))
+                    & (!service.getListReqToFriends(userReqFriend.getId()).contains(currentUser)
+                    & (userReqFriend.getId() != currentUser.getId()))) {
+                System.out.println(service.requestFriends(userReqFriend.getId(), currentUser.getId()));
 
             }
         }
@@ -56,7 +57,7 @@ public class UserController {
 
     @RequestMapping(value = "/friendReqFault", method = RequestMethod.GET)
     public @ResponseBody
-    Object friendReqFault(HttpSession session, @RequestParam String text) {
+    Object friendReqFault(HttpSession session, @RequestParam String text) throws SQLException {
 
 
         int id;
@@ -81,7 +82,7 @@ public class UserController {
 
     @RequestMapping(value = "/friendAdd", method = RequestMethod.POST)
     public @ResponseBody
-    Object friendAdd(HttpSession session, @RequestParam String text) {
+    Object friendAdd(HttpSession session, @RequestParam String text) throws SQLException {
 
         System.out.println(text + " запрос на добавление  в друзья");
         int id;
@@ -92,81 +93,72 @@ public class UserController {
             } catch (Exception e) {
                 return false;
             }
-            if (!currentUser.getListFriends().contains(service.getUser(id)))
-
-            {
+            if (!service.getListFriends(currentUser.getId()).contains(service.getUser(id))) {
                 service.addFriends(currentUser.getId(), id);
-
             }
-
-
         }
 
         return text;
     }
 
-
-    @RequestMapping(value = "/friendDel", method = RequestMethod.GET)
-    public @ResponseBody
-    Object friendDel(HttpSession session, @RequestParam String text) {
-
-
-        int id;
-        if (text != null) {
-            try {
-                id = Integer.parseInt(text);
-            } catch (Exception e) {
-                return false;
-            }
-
-
-            service.delFriends(((User) session.getAttribute("user")), id);
-
-        }
-
-        return text;
-    }
-
-    @RequestMapping(value = "/friends", method = RequestMethod.GET)
-    public ModelAndView friends(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-//        receive user id from session
-        ArrayList<User> listFriends = user.getListFriends();
-        try {
-            System.out.println("before DB");
-            UseJDBC.reqJDBC();
-            System.out.println("after DB");
-
-        } catch (ClassNotFoundException e) {
-            System.out.println( e.toString());
-        } catch (SQLException e) {
-            System.out.println( e.toString());
-        }
-        return new ModelAndView("friends", "listFriends", listFriends);
-    }
-
-
-    @RequestMapping("/logout")
-    public String logout(HttpSession session) {
-        if (!session.isNew()) {
-            ((User) session.getAttribute("user")).setSessionId("");
-            session.invalidate();
-        }
-        return "index";
-    }
-
-    @RequestMapping("/see{idString}")
-    public ModelAndView see(@PathVariable String idString, HttpSession session) {
+    @RequestMapping("/del{idString}")
+    public ModelAndView del(@PathVariable String idString, HttpSession session) throws SQLException {
         int id = -1;
         try {
             id = Integer.parseInt(idString);
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-        if (((User) session.getAttribute("user")).getListFriends().contains(service.getUser(id))) {
+        int currentId = ((User) session.getAttribute("user")).getId();
+        ArrayList<User> listFriends = service.getListFriends(currentId);
+        service.delFriends(currentId, id);
+        return new ModelAndView("friends", "listFriends", listFriends);
+    }
+//    @RequestMapping(value = "/friendDel", method = RequestMethod.GET)
+//    public @ResponseBody
+//    Object friendDel(HttpSession session, @RequestParam String text) {
+//        int id;
+//        if (text != null) {
+//            try {
+//                id = Integer.parseInt(text);
+//            } catch (Exception e) {
+//                return false;
+//            }
+//            service.delFriends(((User) session.getAttribute("user")), id);
+//        }
+//        return text;
+//    }
+
+    @RequestMapping(value = "/friends", method = RequestMethod.GET)
+    public ModelAndView friends(HttpSession session) throws SQLException {
+        User user = (User) session.getAttribute("user");
+        ArrayList<User> listFriends = service.getListFriends(user.getId());
+
+        return new ModelAndView("friends", "listFriends", listFriends);
+    }
+
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) throws SQLException {
+        if (!session.isNew()) {
+            service.setUserSession(((User) session.getAttribute("user")).getId(), "");
+            session.invalidate();
+        }
+        return "index";
+    }
+
+    @RequestMapping("/see{idString}")
+    public ModelAndView see(@PathVariable String idString, HttpSession session) throws SQLException {
+        int id = -1;
+        try {
+            id = Integer.parseInt(idString);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        if (service.getListFriends(((User) session.getAttribute("user")).getId()).contains(service.getUser(id))) {
             return new ModelAndView("see", "friend", service.getUser(id));
         } else {
-            ((User) session.getAttribute("user")).setSessionId("");
+            service.setUserSession(((User) session.getAttribute("user")).getId(), "");
             session.invalidate();
             return new ModelAndView("index");
         }

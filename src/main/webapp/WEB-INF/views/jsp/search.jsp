@@ -209,7 +209,7 @@ function doAjax(inputText) {
 
                  <td>
 
-                        	<input class="${user.id}" type="button" value="OK" onclick="doAjax(${user.id})">
+                        	<input class="${user.id}" type="button" value="OK" onclick="doAjax(${user.id});$(this).remove();">
 
 </td>
 

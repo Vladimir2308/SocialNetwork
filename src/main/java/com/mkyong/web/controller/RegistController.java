@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Controller
@@ -26,7 +27,7 @@ public class RegistController {
                                     @RequestParam String pass1,
                                     @RequestParam String pass2,
                                     @RequestParam String phone
-    ) {
+    ) throws SQLException, ClassNotFoundException {
 
         System.out.println("русские символы");
 
@@ -42,12 +43,19 @@ public class RegistController {
                 &(patronymic.length()>0)
 
         ) {
-            User user = service.register(email, name, surname, patronymic, pass1, phone);
+            User user = null;
+            try {
+                user = service.register (email, name, surname, patronymic, pass1, phone);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             model.setViewName("afterLogin");
             model.addObject("name", name);
             model.addObject("user",user);
-            service.setUserSession(service.getUser(service.getId(email)),session.getId());
-            ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
+            service.setUserSession(service.getUser(email).getId(),session.getId());
+            ArrayList<User> listRequestAddToFriends = service.getListReqToFriends(user.getId());
             model.addObject("listRequestFriends", listRequestAddToFriends);
         } else {
             model = new ModelAndView();

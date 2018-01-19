@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Controller
@@ -19,9 +20,9 @@ public class HelloController {
     private UserService service;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView showMessage( HttpSession session, @RequestParam String email,
+    public ModelAndView showMessage(HttpSession session, @RequestParam String email,
                                     @RequestParam String pass
-    ) {
+    ) throws SQLException, ClassNotFoundException {
 
         System.out.println("русские символы");
 //        if (!session.isNew()) {
@@ -37,13 +38,14 @@ public class HelloController {
                 if (service.login(email, pass)) {
                     model.setViewName("afterLogin");
 
-                    User user=service.getUser(service.getId(email));
-                    model.addObject("user",user);
+                    User user = service.getUser(email);
+                    model.addObject("user", user);
                     model.addObject("name", user.getName());
-                    service.setUserSession(service.getUser(service.getId(email)),session.getId());
-                    ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
+                    service.setUserSession(service.getId(email), session.getId());
+                    System.out.println(session.getId());
+                    ArrayList<User> listRequestAddToFriends = service.getListReqToFriends(user.getId());
 
-                        model.addObject("listRequestFriends", listRequestAddToFriends);
+                    model.addObject("listRequestFriends", listRequestAddToFriends);
 
 
                 } else {
@@ -73,15 +75,14 @@ public class HelloController {
     }
 
     @RequestMapping(value = {"/main"}, method = RequestMethod.GET)
-    public ModelAndView main(HttpSession session) {
+    public ModelAndView main(HttpSession session) throws SQLException {
         ModelAndView model = new ModelAndView();
 
-        User user=(User)session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
 
         model.setViewName("afterLogin");
-        ArrayList<User> listRequestAddToFriends = user.getListRequestAddToFriends();
+        ArrayList<User> listRequestAddToFriends = service.getListReqToFriends(user.getId());
         model.addObject("listRequestFriends", listRequestAddToFriends);
-        System.out.println("list request size" + listRequestAddToFriends.size());
         return model;
     }
 

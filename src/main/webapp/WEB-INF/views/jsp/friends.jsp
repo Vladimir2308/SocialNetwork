@@ -109,6 +109,7 @@ height: 100%;
              0 0 3px rgba(0,0,0,0.24);
            ;
    }
+
       a {
         display: table-cell;
         width: 180px;
@@ -193,8 +194,8 @@ function doDelAjax(inputText) {
 		}),
 		success: function (data) {
 
-			var result = data;
-			$('.data').empty();
+			var result = 'deleted';
+
 
 			$("#result_text").text(result);
 		}
@@ -239,7 +240,7 @@ function doDelAjax(inputText) {
                  <td><a href="see${friend.id}">Инфо</a> </td>
 
                  <td>
-                     	<input class="nav" id=${friend.id} type="button" value="Del" onclick="doDelAjax(${friend.id})">
+                     	<a href="del${friend.id}">Del</a>
                      	 </td>
 
 

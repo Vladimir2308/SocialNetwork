@@ -179,9 +179,7 @@ function doAjaxFault(inputText) {
 		}),
 		success: function (data) {
 
-			var result = "Reset";
-			$("#result_text").text(result);
-		}
+			}
 	});
 }
 </script>
@@ -227,9 +225,12 @@ function doAjaxFault(inputText) {
 
 
                                             <td>
-                                                	<input class="nav" id=${user.id} type="button" value="Add" onclick="doAjaxAdd(${userFromReq.id})">
-                                                	<input class="nav" id=${user.id} type="button" value="Del" onclick="doAjaxFault(${userFromReq.id})">
-                                                	<p id="result_text"></p> </td>
+                                                	<input class="nav" id=${user.id} type="button"
+                                                	value="Add" onclick="doAjaxAdd(${userFromReq.id});$(this).closest('tr').remove();">
+
+                                                	<input class="nav" id=${user.id} type="button"
+                                                	value="Del" onclick="doAjaxFault(${userFromReq.id});$(this).closest('tr').remove();">
+                                                	 </td>
 
                                            </tr>
                                           </c:forEach>
